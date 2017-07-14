@@ -1,4 +1,3 @@
-
 import threading
 import os
 import requests
@@ -11,9 +10,9 @@ import MySQLdb
 
 data = {'grant_type': 'password', 'client_secret': '413elqq52m0wkgc8wcwc0k88g04go4k8o8oswk84wsg8o80s0k',
         'client_id': '9_4q0da7s42l8g040g4oscs8gw4k4cogcowoccgkc84kswksgcko',
-        'username': 'carlos.attafuah@theexchangelab.com', 'password': 'Jmeter123'}
+        'username': 'carlos.attafuah@theexchangelab.com', 'password': 'Proteus1'}
 r = requests.get('http://metalab.odin.tel-dev.io/oauth/v2/token?', params=data)
-authdata = "Bearer"  + " " + (r.json()["access_token"])
+authdata = "BEARER" + " " + r.json()["access_token"]
 if r.status_code == 200:
     print(authdata)
 else:
@@ -91,11 +90,6 @@ class dspe(object):
          for row in rows:
              print(rows)
 
-     def get_status_from_db(self):
-
-         conn1 = MySQLdb.connect(host=self.host, user=self.userid, password=self.pwd, database=self.db)
-         c1= conn1.cursor()
-         print(c1.execute("select * from dspe.source_data_tracker where jobid ="+ self.job_id))
 
 
 
@@ -103,23 +97,20 @@ class dspe(object):
 
 with open('vietestdata.json') as payload:
     data = json.load(payload)
+    no_of_jobs_to_run = 0
     for r in data['payload']:
         w=json.dumps(r)
         mydspe = dspe()
         mydspe.create_jobs(payload=w)
+
         mydspe.runjob()
-        mydspe.get_status_from_db()
+        no_of_jobs_to_run += 1
+        print(str(no_of_jobs_to_run) + ("Jobs Created"))
+
         if mydspe.get_status() == "IN_PROGRESS":
          pass
         else:
             print ("The job reported status of " + " " + mydspe.get_status())
-
-
-
-
-
-
-
 
 
 

@@ -124,7 +124,7 @@ def before_test():
     try:
         conn = MySQLdb.connect(passwd="tli00eNND2ROLm:d,cq-", db="dspe", host="proteus.odin.tel-dev.io", port=3306,
                                user="root")
-        engine = create_engine('mysql+pymysql://root:tli00eNND2ROLm:d,cq-@proteus.odin.tel-dev.io:3306/dspe')
+        engine = create_engine('mysql+pymysql://username:password,dburl')
         sql = 'DELETE from dspe.file_audit_info'
         sql2 = 'select count(*) from dspe.file_audit_info'
         cur = conn.cursor()
